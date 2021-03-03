@@ -10,6 +10,6 @@ Please browse through individual crates for more specific discussions and/or des
   - [Execution](crates/execution/README.md) (evm)
   - [Networking](crates/networking/README.md) (devp2p, libp2p, json-rpc)
   - [Storage](crates/storage/README.md) (snapshotting, import/export, state, blocks store, pruning, archival, etc.)
-  - [Consesnsus](crates/consesnsus/README.md) (PoW, PoS, Miner, etc..)
+  - [Consensus](crates/consensus/README.md) (PoW, PoS, Miner, etc..)
   - [Transaction Pool](crates/txpool/README.md)
   - [OE](crates/oe/README.md)
