@@ -10,5 +10,5 @@ Please browse through individual crates for more specific discussions and/or des
   - [Execution](crates/execution/README.md)
   - [Networking](crates/networking/README.md)
   - [Storage](crates/storage/README.md)
-  - [Miner](crates/miner/README.md)
+  - [Consesnsus](crates/consesnsus/README.md)
   - [OE](crates/oe/README.md)
