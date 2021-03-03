@@ -10,3 +10,4 @@ This crate is responsible for implementing all storage mechanism used within Ope
   - Prunning and compression,
   - Marking regions of storage that are accessed by certain contracts and applying pruning/locality/paging policies.
   - This crate should have dependency only on the `core` create and is populated by applying `StateDiff`s.
+  - Storage have caches for things such as: `nonce`s, recent state, etc. 
