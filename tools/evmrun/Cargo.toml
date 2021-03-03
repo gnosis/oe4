@@ -1,0 +1,12 @@
+# Copyright 2021 The OpenEthereum Authors.
+# Licensed under the Apache License, Version 2.0.
+
+[package]
+name = "evmrun"
+version = "4.0.0-alpha"
+authors = ["Karim Agha <karim.agha@gnosis.io>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
