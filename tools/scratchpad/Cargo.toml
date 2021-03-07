@@ -1,0 +1,15 @@
+# Copyright 2021 The OpenEthereum Authors.
+# Licensed under the Apache License, Version 2.0.
+
+[package]
+name = "scratchpad"
+version = "0.0.0"
+description = "This binary is sed to experiment with stuff in oe4 environment during development"
+authors = ["Karim Agha <karim.dev@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+core = { path ="../../crates/core" }
+execution = { path ="../../crates/execution" }
+networking = { path ="../../crates/networking" }
+storage = { path ="../../crates/storage" }

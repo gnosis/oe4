@@ -3,4 +3,4 @@
 
 [workspace]
 members = ["crates/*", "tools/*"]
-default-members = ["crates/oe"]
+default-members = ["crates/oe", "tools/evmrun", "tools/scratchpad"]
