@@ -103,7 +103,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
 # Changes to the scratchpad crate beyond the original commit
 tools/scratchpad
 tools/scratchpad/**
