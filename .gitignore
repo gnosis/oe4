@@ -106,3 +106,4 @@ $RECYCLE.BIN/
 
 # Changes to the scratchpad crate beyond the original commit
 tools/scratchpad
+tools/scratchpad/**
