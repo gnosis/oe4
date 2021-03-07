@@ -14,5 +14,6 @@ core = { path = "../core" }
 execution = { path = "../execution" }
 networking = { path = "../networking" }
 storage = { path = "../storage" }
+consensus = { path = "../consensus" }
 
 tokio = { version = "1.2", features = ["full"] }

@@ -11,10 +11,10 @@ use crate::{U128, U256, U512};
 use fixed_hash::*;
 
 pub trait BigEndianHash {
-    type Uint;
+  type Uint;
 
-    fn from_uint(val: &Self::Uint) -> Self;
-    fn into_uint(&self) -> Self::Uint;
+  fn from_uint(val: &Self::Uint) -> Self;
+  fn into_uint(&self) -> Self::Uint;
 }
 
 construct_fixed_hash! { pub struct H128(16); }
@@ -25,21 +25,21 @@ construct_fixed_hash! { pub struct H512(64); }
 construct_fixed_hash! { pub struct H520(65); }
 
 macro_rules! impl_uint_conversions {
-    ($hash: ident, $uint: ident) => {
-        impl BigEndianHash for $hash {
-            type Uint = $uint;
+  ($hash: ident, $uint: ident) => {
+    impl BigEndianHash for $hash {
+      type Uint = $uint;
 
-            fn from_uint(value: &$uint) -> Self {
-                let mut ret = $hash::zero();
-                value.to_big_endian(ret.as_bytes_mut());
-                ret
-            }
+      fn from_uint(value: &$uint) -> Self {
+        let mut ret = $hash::zero();
+        value.to_big_endian(ret.as_bytes_mut());
+        ret
+      }
 
-            fn into_uint(&self) -> $uint {
-                $uint::from(self.as_ref() as &[u8])
-            }
-        }
-    };
+      fn into_uint(&self) -> $uint {
+        $uint::from(self.as_ref() as &[u8])
+      }
+    }
+  };
 }
 
 impl_uint_conversions!(H128, U128);
