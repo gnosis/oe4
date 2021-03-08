@@ -9,6 +9,8 @@
 /// crate are ignore by git through .gitignore as the content
 /// of this crate are developer private scratchpad area.
 
+/// git update-index --assume-unchanged tools/scratchpad/
+
 fn main() {
   println!("Running inside OpenEthereum 4.0 environment");
 }
