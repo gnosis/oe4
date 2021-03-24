@@ -1,0 +1,14 @@
+# Copyright 2021 The OpenEthereum Authors.
+# Licensed under the Apache License, Version 2.0.
+
+[package]
+name = "oe4-runtime"
+version = "4.0.0-alpha"
+description = "Distributed actors runtime for OpenEthereum"
+authors = ["Karim Agha <karim.dev@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rand = "0.8.3"
+crossbeam-queue = "0.3.1"
+serde = { version = "1.0", features = ["derive"] }
