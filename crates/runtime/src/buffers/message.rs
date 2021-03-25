@@ -14,7 +14,7 @@ type Id = u64;
 #[derive(Clone, Debug)]
 pub struct Message<T>
 where
-  T: Sized + Send + Clone + Serialize + DeserializeOwned,
+  T: Sized + Send + Serialize + DeserializeOwned,
 {
   payload: T,
   id: Id,
@@ -22,7 +22,7 @@ where
 
 impl<T> Message<T>
 where
-  T: Sized + Send + Clone + Serialize + DeserializeOwned,
+  T: Sized + Send + Serialize + DeserializeOwned,
 {
   pub fn new(payload: T) -> Self {
     Message {
@@ -35,6 +35,10 @@ where
     &self.payload
   }
 
+  pub fn release(self) -> T {
+    self.payload
+  }
+
   pub fn id(&self) -> Id {
     self.id
   }
@@ -42,14 +46,14 @@ where
 
 impl<T> PartialEq for Message<T>
 where
-  T: Sized + Send + Clone + Serialize + DeserializeOwned,
+  T: Sized + Send + Serialize + DeserializeOwned,
 {
   fn eq(&self, other: &Self) -> bool {
     self.id == other.id
   }
 }
 
-impl<T> Eq for Message<T> where T: Sized + Send + Clone + Serialize + DeserializeOwned {}
+impl<T> Eq for Message<T> where T: Sized + Send + Serialize + DeserializeOwned {}
 
 impl<T> Deref for Message<T>
 where
@@ -61,3 +65,18 @@ where
     &self.payload
   }
 }
+
+/// The valid responses for an offer of a message to a block.
+#[derive(Debug, PartialEq, Eq)]
+pub enum Status {
+  /// The target accepted the message.
+  Accepted,
+  /// The target did not accept the message.
+  Declined,
+  /// The target posponed the message
+  Posponed,
+  /// The target tried to accept the message but it was no longer available.
+  Missed,
+}
+
+unsafe impl Send for Status {}
