@@ -57,6 +57,8 @@ impl<T> Target<T> for WriteOnceBuffer<T>
 where
   T: Sized + Send + Clone + Serialize + DeserializeOwned + Sync,
 {
+  /// Only accept the first assigned value, and reject all changes
+  /// afterwards
   async fn accept(&self, message: Message<T>) -> MessageStatus {
     let access = self.value.upgradable_read().await;
     match *access {
@@ -64,7 +66,7 @@ where
       None => {
         let mut writer = RwLockUpgradableReadGuard::upgrade(access).await;
         *writer = Some(message);
-        self.notify.1.notify_one();
+        self.notify.1.notify_all();
         MessageStatus::Accepted
       }
     }

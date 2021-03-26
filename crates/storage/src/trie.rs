@@ -3,7 +3,9 @@
 
 use core::Keccak;
 
+#[allow(dead_code)]
 pub struct MerklePatriciaTree;
 
 /// Merkle inclusivity proof
+#[allow(dead_code)]
 pub struct MarkleProof(Keccak, Vec<Keccak>);

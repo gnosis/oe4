@@ -4,7 +4,7 @@
 [package]
 name = "aura"
 version = "4.0.0-alpha"
-authors = ["Karim Agha <karim.agha@gnosis.io>"]
+authors = ["Karim Agha <karim.dev@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

@@ -2,11 +2,14 @@
 # Licensed under the Apache License, Version 2.0.
 
 [package]
-name = "dev"
+name = "instant-seal"
 version = "4.0.0-alpha"
-authors = ["Karim Agha <karim.agha@gnosis.io>"]
+authors = ["Karim Agha <karim.dev@gmail.com>"]
 edition = "2018"
+description = "This consensus algorithm always produces blocks instantly for dev purposes"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+core = { path = "../../core" }
+oe4-runtime = { path = "../../runtime" }
