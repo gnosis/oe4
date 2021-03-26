@@ -11,7 +11,7 @@ use serde::{de::DeserializeOwned, Serialize};
 /// Messages are forwarded in arbitrary order.
 pub struct UnboundedBuffer<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned
 {
   /// messages that were not consumed yet by targets
   pending: SegQueue<Message<T>>,
@@ -21,7 +21,7 @@ where
 
 impl<T> UnboundedBuffer<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned
 {
   pub fn new() -> Self {
     UnboundedBuffer {
@@ -39,7 +39,7 @@ where
 #[async_trait]
 impl<T> Source<T> for UnboundedBuffer<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned
 {
   fn try_consume(&self) -> Option<Message<T>> {
     self.pending.pop()
@@ -59,11 +59,8 @@ where
 #[async_trait]
 impl<T> Target<T> for UnboundedBuffer<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned
 {
-  async fn propagate(&self) -> MessageStatus {
-    MessageStatus::Declined
-  }
   async fn accept(&self, message: Message<T>) -> MessageStatus {
     self.pending.push(message);
     self.notify.1.notify_one();
@@ -171,7 +168,7 @@ mod tests {
 
       for i in 0..2000u32 {
         let consumed = buf_t3.consume().await;
-        
+
         counter += 1;
         sum += *consumed.unwrap();
 

@@ -14,7 +14,7 @@ type Id = u64;
 #[derive(Clone, Debug)]
 pub struct Message<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned,
 {
   payload: T,
   id: Id,
@@ -22,7 +22,7 @@ where
 
 impl<T> Message<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned,
 {
   pub fn new(payload: T) -> Self {
     Message {
@@ -46,14 +46,14 @@ where
 
 impl<T> PartialEq for Message<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned,
 {
   fn eq(&self, other: &Self) -> bool {
     self.id == other.id
   }
 }
 
-impl<T> Eq for Message<T> where T: Sized + Send + Serialize + DeserializeOwned {}
+impl<T> Eq for Message<T> where T: Sized + Send + Clone + Serialize + DeserializeOwned {}
 
 impl<T> Deref for Message<T>
 where

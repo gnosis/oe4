@@ -23,9 +23,12 @@ type Result<T> = std::result::Result<T, error::Error>;
 #[async_trait]
 pub trait Source<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned
 {
+  /// Attempts to return a message if it immediately available
   fn try_consume(&self) -> Option<Message<T>>;
+
+  /// asynchronously blocks until a message is available
   async fn consume(&self) -> Result<Message<T>>;
 }
 
@@ -34,32 +37,30 @@ where
 #[async_trait]
 pub trait Target<T>
 where
-  T: Sized + Send + Serialize + DeserializeOwned,
+  T: Sized + Send + Clone + Serialize + DeserializeOwned,
 {
+  /// Asynchonously sends/writes a message on the target
   async fn accept(&self, message: Message<T>) -> MessageStatus;
-  async fn propagate(&self) -> MessageStatus;
 }
 
-pub async fn send<T: Sized + Send + Serialize + DeserializeOwned>(
+pub async fn send<T: Sized + Send + Clone + Serialize + DeserializeOwned>(
   target: &dyn Target<T>,
   value: T,
 ) -> MessageStatus {
   target.accept(Message::new(value)).await
 }
 
-pub fn try_receive<T: Sized + Send + Serialize + DeserializeOwned>(
+pub fn try_receive<T: Sized + Send + Clone + Serialize + DeserializeOwned>(
   source: &dyn Source<T>,
 ) -> Option<T> {
   source.try_consume().map(|m| m.release())
 }
 
-pub async fn receive<T: Sized + Send + Serialize + DeserializeOwned>(
+pub async fn receive<T: Sized + Send + Clone + Serialize + DeserializeOwned>(
   source: &dyn Source<T>,
 ) -> Result<T> {
   source.consume().await.map(|m| m.release())
 }
-
-pub trait Agent {}
 
 #[cfg(test)]
 mod tests {
