@@ -17,11 +17,11 @@ pub use write_once::WriteOnceBuffer;
 use async_trait::async_trait;
 use serde::{de::DeserializeOwned, Serialize};
 
-type Result<T> = std::result::Result<T, error::Error>;
+pub type Result<T> = std::result::Result<T, error::Error>;
 
 /// Implemented by all source buffers that propagate messages to [Target]s
 #[async_trait]
-pub trait Source<T>
+pub trait Source<T> : Send + Sync
 where
   T: Sized + Send + Clone + Serialize + DeserializeOwned
 {
@@ -35,7 +35,7 @@ where
 /// Implemented by all target blocks that consume messages offered to them
 /// by source buffers
 #[async_trait]
-pub trait Target<T>
+pub trait Target<T> : Send + Sync
 where
   T: Sized + Send + Clone + Serialize + DeserializeOwned,
 {

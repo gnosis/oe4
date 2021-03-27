@@ -11,5 +11,5 @@ description = "This consensus algorithm always produces blocks instantly for dev
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-core = { path = "../../core" }
+ethereum = { path = "../../core" }
 oe4-runtime = { path = "../../runtime" }

@@ -9,7 +9,7 @@ authors = ["Karim Agha <karim.dev@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-core = { path ="../../crates/core" }
+ethereum = { path ="../../crates/core" }
 execution = { path ="../../crates/execution" }
 networking = { path ="../../crates/networking" }
 storage = { path ="../../crates/storage" }

@@ -4,10 +4,11 @@
 use crate::Transaction;
 use crate::{Address, Bloom, Keccak, U256};
 
-use serde::{Deserialize, Serialize};
 use rlp_derive::{RlpDecodable, RlpEncodable};
+use serde::{Deserialize, Serialize};
 
 /// https://ethereum.stackexchange.com/questions/268/ethereum-block-architecture
+#[cfg_attr(test, derive(Default))]
 #[derive(Debug, Eq, Clone, PartialEq, Serialize, Deserialize, RlpEncodable, RlpDecodable)]
 pub struct BlockHeader {
   pub parent_hash: Keccak,
@@ -18,7 +19,7 @@ pub struct BlockHeader {
   pub transactions_root: Keccak,
   pub receipts_root: Keccak,
   pub logs_bloom: Bloom,
-  
+
   pub difficulty: U256,
   pub number: u64,
   pub gas_limit: U256,
@@ -31,6 +32,7 @@ pub struct BlockHeader {
 }
 
 /// https://ethereum.stackexchange.com/questions/268/ethereum-block-architecture
+#[cfg_attr(test, derive(Default))]
 #[derive(Debug, Eq, Clone, PartialEq, Serialize, Deserialize, RlpEncodable, RlpDecodable)]
 pub struct Block {
   pub header: BlockHeader,

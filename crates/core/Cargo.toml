@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0.
 
 [package]
-name = "core"
+name = "ethereum"
 version = "4.0.0-alpha"
 authors = ["Karim Agha <karim.dev@gmail.com>"]
 edition = "2018"
