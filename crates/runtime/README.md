@@ -176,3 +176,5 @@ See also:
 - [Async Message Buffers Library](src/buffers/mod.rs)
 - [UnboundedBuffer](src/buffers/unbounded.rs)
 - [OverwriteBuffer](src/buffers/overwrite.rs)
+- [WriteOnceBuffer](src/buffers/write_once.rs)
+- [Message](src/buffers/message.rs)
