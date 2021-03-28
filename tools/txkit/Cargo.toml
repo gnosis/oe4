@@ -1,0 +1,16 @@
+# Copyright 2021 The OpenEthereum Authors.
+# Licensed under the Apache License, Version 2.0.
+
+[package]
+name = "txkit"
+version = "4.0.0-alpha"
+authors = ["Karim Agha <karim.dev@gmail.com>"]
+edition = "2018"
+description = "Transactions Kit - various dev tools for creating and mocking transactions"
+
+[dependencies]
+ethereum = { path = "../../crates/core" }
+tokio = { version = "1.3", features = ["full"] }
+clap = { git = "https://github.com/clap-rs/clap/" }
+parity-secp256k1 = "0.7.0"
+hex = "0.4.3"

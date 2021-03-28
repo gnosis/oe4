@@ -3,10 +3,9 @@
 
 use crate::{Keccak, U256};
 use serde::{Deserialize, Serialize};
-use rlp_derive::{RlpDecodable, RlpEncodable};
 
 /// https://ethereum.stackexchange.com/questions/268/ethereum-block-architecture
-#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize, RlpEncodable, RlpDecodable)]
+#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Account {
   pub nonce: U256,
   pub balance: U256,

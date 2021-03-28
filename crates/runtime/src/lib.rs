@@ -9,7 +9,6 @@ pub use agent::Agent;
 
 #[cfg(test)]
 mod tests {
-  use super::*;
   use serde::{Deserialize, Serialize};
 
   #[test]
@@ -26,24 +25,5 @@ mod tests {
       id: u64,
       txs: Vec<Transaction>
     }
-
-    struct Config {
-      secret_key: u64
-    }
-
-    struct NetworkInterface;
-    
-    struct TransactionPool {
-      pub incoming_tx: buffers::UnboundedBuffer<Transaction>,
-      pub proposed_block: buffers::OverwriteBuffer<Block>
-    }
-
-    
-
-    struct EVM;
-    struct Miner;
-    struct Storage;
-
-
   }
 }
