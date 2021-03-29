@@ -39,7 +39,7 @@ pub(crate) struct SendOptions {
     parse(try_from_str = parse_secret_key),
     about="Secret 256-bit key used as x in an ECDSA signature",
     default_value="0000000000000000000000000000000000000000000000000000000000000001")]
-  secret: SecretKey
+  secret: SecretKey // this default gives sender addr: 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf
 }
 
 pub(crate) async fn run(opts: &SendOptions, global: &CommonOptions) -> Result<(), Box<dyn Error>> {

@@ -1,20 +1,21 @@
 // Copyright 2021 The OpenEthereum Authors.
 // Licensed under the Apache License, Version 2.0.
 
-use crate::{Address, Keccak, H256, U256};
+use crate::{Address, H256, Keccak, U256};
 use keccak_hash::keccak;
-use serde::{Deserialize, Serialize};
+use rlp::RlpStream;
+use serde::{Deserialize, Serialize, ser::SerializeSeq};
 
 /// Components that constitute transaction signature
 #[derive(Default, Debug, Eq, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Signature {
-  pub v: u8, // The V field of the signature; which half of the curve our point falls in. either 27 or 28.
+  pub v: u64, // The V field of the signature; which half of the curve our point falls in. either 27 or 28.
   pub r: U256, // The R field of the signature; helps describe the point on the curve.
   pub s: U256, // The S field of the signature; helps describe the point on the curve.
 }
 
 /// https://ethereum.stackexchange.com/questions/268/ethereum-block-architecture
-#[derive(Default, Debug, Eq, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Eq, Clone, PartialEq)]
 pub struct Transaction {
   pub nonce: U256,
   pub gas_price: U256,
@@ -33,10 +34,23 @@ impl Transaction {
     recipient: Address,
     value: U256,
     data: Vec<u8>,
-    _chain_id: u64,
+    chain_id: u64,
     secret: H256,
   ) -> Result<Self, secp256k1::Error> {
-    let rlp = b"this is some rlp placeholder with chain_id";
+    
+    let mut enc_stream = RlpStream::new();
+    enc_stream.begin_list(9);
+    enc_stream.append(&nonce);
+    enc_stream.append(&gas_price);
+    enc_stream.append(&gas_limit);
+    enc_stream.append(&recipient);
+    enc_stream.append(&value);
+    enc_stream.append(&data);
+    enc_stream.append(&chain_id);
+    enc_stream.append(&0u64);
+    enc_stream.append(&0u64);
+
+    let rlp = enc_stream.as_raw();
     let rlp_hash = keccak(&rlp).to_fixed_bytes();
 
     Ok(Transaction {
@@ -46,8 +60,37 @@ impl Transaction {
       recipient,
       value,
       data,
-      signature: Signature::new(&keccak(rlp_hash), &secret)?,
+      signature: Signature::new(&keccak(rlp_hash), &secret, chain_id)?,
     })
+  }
+}
+
+impl Serialize for Transaction {
+  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+  where
+    S: serde::Serializer,
+  {
+    use crate::primitive::RlpSer;
+    let mut ser = serializer.serialize_seq(Some(9))?;
+    ser.serialize_element(&RlpSer::wrap(self.nonce))?;
+    ser.serialize_element(&RlpSer::wrap(self.gas_price))?;
+    ser.serialize_element(&RlpSer::wrap(self.gas_limit))?;
+    ser.serialize_element(&RlpSer::wrap(self.recipient))?;
+    ser.serialize_element(&RlpSer::wrap(self.value))?;
+    ser.serialize_element(&RlpSer::wrap(&self.data[..]))?;
+    ser.serialize_element(&self.signature.v)?;
+    ser.serialize_element(&RlpSer::wrap(self.signature.r))?;
+    ser.serialize_element(&RlpSer::wrap(self.signature.s))?;
+    ser.end()
+  }
+}
+
+impl<'de> Deserialize<'de> for Transaction {
+  fn deserialize<D>(_deserializer: D) -> Result<Self, D::Error>
+  where
+    D: serde::Deserializer<'de>,
+  {
+    todo!()
   }
 }
 
@@ -62,28 +105,17 @@ impl Transaction {
 }
 
 impl Signature {
-  pub fn new(hash: &Keccak, secret: &H256) -> Result<Self, secp256k1::Error> {
+  pub fn new(hash: &Keccak, secret: &H256, chain_id: u64) -> Result<Self, secp256k1::Error> {
     let ctx = secp256k1::Secp256k1::new();
     let message = secp256k1::Message::from(*hash.as_fixed_bytes());
     let secret = secp256k1::key::SecretKey::from(*secret.as_fixed_bytes());
-    let signature = ctx.sign_recoverable(&message, &secret)?;
-    Ok(signature.into())
-  }
-}
-
-impl From<secp256k1::RecoverableSignature> for Signature {
-  fn from(s: secp256k1::RecoverableSignature) -> Self {
+    let s = ctx.sign_recoverable(&message, &secret)?;
     let (recovery_id, sigdata) = s.serialize_compact(&secp256k1::Secp256k1::new());
-
-    let mut data = [0; 65];
-    data[0..64].copy_from_slice(&sigdata[0..64]);
-    data[64] = recovery_id.to_i32() as u8;
-
-    Self {
-      v: data[64],
-      r: U256::from(&data[0..32]),
-      s: U256::from(&data[32..64]),
-    }
+    Ok(Self {
+      v: recovery_id.to_i32() as u64 + 35 + chain_id * 2,
+      r: U256::from(&sigdata[0..32]),
+      s: U256::from(&sigdata[32..64]),
+    })
   }
 }
 

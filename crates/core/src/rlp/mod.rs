@@ -4,6 +4,7 @@
 pub mod des;
 pub mod err;
 pub mod ser;
+pub mod custom;
 
 use err::ErrorKind;
 

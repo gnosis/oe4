@@ -3,14 +3,12 @@
 
 mod account;
 mod block;
+mod primitive;
 mod rlp;
 mod transaction;
 
 // large integers
-pub use ethereum_types::U256;
-
-// special purpose hashes
-pub use ethereum_types::{Address, Bloom, H256, H256 as Keccak};
+pub use primitive::{Address, Bloom, H256, H256 as Keccak, U256};
 
 // domain types
 pub use account::Account;
