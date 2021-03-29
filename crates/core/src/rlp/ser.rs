@@ -180,7 +180,7 @@ impl<'a> serde::Serializer for &'a mut EthereumRlpSerializer {
 
   fn serialize_struct(
       self,
-      name: &'static str,
+      _: &'static str,
       len: usize,
   ) -> Result<Self::SerializeStruct, Self::Error> {
       self.stream.begin_list(len);
