@@ -1,7 +1,7 @@
 // Copyright 2021 The OpenEthereum Authors.
 // Licensed under the Apache License, Version 2.0.
 
-use super::{Message, MessageStatus, Result, Source, Target};
+use crate::{Message, MessageStatus, Result, Source, Target};
 
 use async_std::sync::{Condvar, Mutex, RwLock, RwLockUpgradableReadGuard};
 use async_trait::async_trait;
@@ -71,7 +71,6 @@ where
     MessageStatus::Accepted
   }
 }
-
 
 #[cfg(test)]
 mod tests {
