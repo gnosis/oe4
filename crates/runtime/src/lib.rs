@@ -9,6 +9,8 @@ pub use nodes::*;
 pub use buffers::*;
 pub use agent::Agent;
 
+pub use async_trait::async_trait;
+
 #[cfg(test)]
 mod tests {
   use serde::{Deserialize, Serialize};

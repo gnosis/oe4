@@ -3,11 +3,11 @@
 
 use std::error::Error;
 
-use networking::NetworkInterface;
+use networking::{Config, NetworkInterface};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-  let _network = NetworkInterface::new();
+  let _network = NetworkInterface::new(Config::default());
   Ok(())
 }
 

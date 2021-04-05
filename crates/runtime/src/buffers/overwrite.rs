@@ -83,7 +83,7 @@ mod tests {
   };
 
   #[async_test]
-  async fn sanity_test() {
+  async fn sanity() {
     let wobuf: Arc<OverwriteBuffer<u64>> = Arc::new(OverwriteBuffer::new());
 
     assert_eq!(wobuf.try_consume(), None);
